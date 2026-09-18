@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PulseWatch — Servers</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/base.css" /><link rel="stylesheet" href="css/components.css" /><link rel="stylesheet" href="css/charts.css" /><link rel="stylesheet" href="css/responsive.css" />
+  <script>window.PW_API_BASE='/api';</script>
+  <style>
+    .servers-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:1rem; }
+  </style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar" id="sidebar">
+    <a href="index.html" class="sidebar__brand"><div class="sidebar__logo"><svg viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="7" fill="#1e3a5f"/><polyline points="3,14 7,14 10,6 14,22 17,11 20,14 25,14" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="sidebar__brand-name">Pulse<span>Watch</span></span></a>
+    <nav class="sidebar__nav"><ul style="list-style:none;padding:0;margin:0">
+      <li class="sidebar__item"><a href="index.html"     class="sidebar__link"><span class="sidebar__link-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="1" y="1" width="6" height="6" rx="1"/><rect x="9" y="1" width="6" height="6" rx="1"/><rect x="1" y="9" width="6" height="6" rx="1"/><rect x="9" y="9" width="6" height="6" rx="1"/></svg></span><span class="sidebar__link-label">Dashboard</span></a></li>
+      <li class="sidebar__item"><a href="monitors.html"  class="sidebar__link"><span class="sidebar__link-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><polyline points="1,8 4,8 6,3 9,13 11,6 13,8 15,8"/></svg></span><span class="sidebar__link-label">Monitors</span></a></li>
+      <li class="sidebar__item"><a href="servers.html"   class="sidebar__link"><span class="sidebar__link-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="1" y="2" width="14" height="5" rx="1"/><rect x="1" y="9" width="14" height="5" rx="1"/></svg></span><span class="sidebar__link-label">Servers</span></a></li>
+      <li class="sidebar__item"><a href="incidents.html" class="sidebar__link"><span class="sidebar__link-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 1.5L1 13.5h14L8 1.5z"/></svg></span><span class="sidebar__link-label">Incidents</span></a></li>
+      <li class="sidebar__item"><a href="analytics.html" class="sidebar__link"><span class="sidebar__link-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><polyline points="1,12 5,7 8,9 11,5 15,2"/></svg></span><span class="sidebar__link-label">Analytics</span></a></li>
+      <li class="sidebar__item"><a href="settings.html"  class="sidebar__link"><span class="sidebar__link-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="8" cy="8" r="2"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2"/></svg></span><span class="sidebar__link-label">Settings</span></a></li>
+    </ul></nav>
+    <div class="sidebar__footer">
+      <div class="sidebar__user"><div class="sidebar__avatar" data-user-avatar>JD</div><div class="sidebar__footer-text"><div class="sidebar__user-name" data-user-name>—</div><div class="sidebar__org-name" data-org-name>—</div></div></div>
+      <div class="sidebar__status-row"><div class="connection-indicator indicator--connecting" id="connection-indicator"><span class="indicator__dot"></span><span class="indicator__text">Connecting</span></div></div>
+    </div>
+  </aside>
+  <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+  <div class="main-area">
+    <header class="topbar">
+      <button class="topbar__mobile-toggle" id="sidebar-toggle" aria-label="Toggle menu"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg></button>
+      <div class="topbar__search"><div class="topbar__search-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="7" cy="7" r="5"/><line x1="11.5" y1="11.5" x2="14" y2="14"/></svg></div><input id="global-search" type="search" placeholder="Search…" /></div>
+      <div class="topbar__right">
+        <button class="topbar__btn" id="refresh-btn" title="Refresh"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 8A6 6 0 112 8"/><polyline points="2,4 2,8 6,8"/></svg></button>
+        <div class="dropdown-wrap"><button class="topbar__btn" data-dropdown="user-menu" aria-expanded="false"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="8" cy="5" r="3"/><path d="M2 14c0-3 2.7-5 6-5s6 2 6 5"/></svg></button><div class="dropdown-menu" id="user-menu"><button class="dropdown-item dropdown-item--danger" id="logout-btn">Sign out</button></div></div>
+      </div>
+    </header>
+
+    <main class="page-content">
+      <div class="page-header">
+        <div class="page-header__left">
+          <h1 class="page-header__title">Servers</h1>
+          <p class="page-header__subtitle" id="server-count-sub">Loading…</p>
+        </div>
+        <div class="page-header__actions">
+          <button class="btn btn--primary" id="add-server-btn">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="2" x2="8" y2="14"/><line x1="2" y1="8" x2="14" y2="8"/></svg>
+            Add Server
+          </button>
+        </div>
+      </div>
+
+      <!-- KPI row -->
+      <div class="grid-4" style="margin-bottom:1.5rem">
+        <div class="kpi-card"><div class="kpi-card__label">Total Servers</div><div class="kpi-card__value" id="srv-kpi-total">—</div></div>
+        <div class="kpi-card"><div class="kpi-card__label">Online</div><div class="kpi-card__value kpi-card__value--success" id="srv-kpi-online">—</div></div>
+        <div class="kpi-card"><div class="kpi-card__label">Offline</div><div class="kpi-card__value kpi-card__value--danger" id="srv-kpi-offline">—</div></div>
+        <div class="kpi-card"><div class="kpi-card__label">Avg CPU</div><div class="kpi-card__value kpi-card__value--accent" id="srv-kpi-cpu">—</div></div>
+      </div>
+
+      <!-- Server grid -->
+      <div class="servers-grid" id="servers-grid">
+        <div class="server-card"><div class="skeleton skeleton--line" style="margin-bottom:0.75rem"></div><div class="skeleton skeleton--line" style="width:60%"></div></div>
+        <div class="server-card"><div class="skeleton skeleton--line" style="margin-bottom:0.75rem"></div><div class="skeleton skeleton--line" style="width:70%"></div></div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- Add server modal -->
+<div class="modal-backdrop" id="add-server-modal">
+  <div class="modal modal--md">
+    <div class="modal__header"><h2 class="modal__title">Add Server Agent</h2><button class="modal__close" data-modal-close>&times;</button></div>
+    <div class="modal__body">
+      <p style="font-size:0.8125rem;color:var(--text-secondary);margin-bottom:1.25rem">Install the PulseWatch agent on your server. After creating an agent here, copy the token and run the agent with it.</p>
+      <div class="form-group">
+        <label class="form-label" for="srv-name">Agent name</label>
+        <input class="form-input" id="srv-name" type="text" placeholder="e.g. web-01.prod" />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="srv-heartbeat">Heartbeat timeout (seconds)</label>
+        <input class="form-input" id="srv-heartbeat" type="number" value="120" min="30" max="3600" />
+        <span class="form-hint">Mark offline after this many seconds without a heartbeat</span>
+      </div>
+      <div id="srv-token-result" style="display:none;margin-top:1rem">
+        <div style="background:var(--bg-page);border:1px solid var(--border);border-radius:var(--radius);padding:0.875rem">
+          <p style="font-size:0.75rem;color:var(--color-warn);font-weight:600;margin-bottom:0.5rem">⚠ Copy this token now — it won't be shown again.</p>
+          <code id="srv-token-value" style="font-size:0.8125rem;word-break:break-all;color:var(--color-accent)"></code>
+          <div style="margin-top:0.75rem"><button class="btn btn--ghost btn--sm" data-copy="">Copy Token</button></div>
+        </div>
+      </div>
+      <div id="srv-form-error" style="display:none;color:var(--color-danger);font-size:0.8125rem;padding:0.5rem 0"></div>
+    </div>
+    <div class="modal__footer">
+      <button class="btn btn--ghost" data-modal-close>Cancel</button>
+      <button class="btn btn--primary" id="save-server-btn">Create Agent</button>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="js/servers.js"></script>
+</body>
+</html>

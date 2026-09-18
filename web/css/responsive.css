@@ -1,0 +1,135 @@
+/* PulseWatch — responsive.css
+   Tablet and mobile breakpoints.
+*/
+
+/* ── Tablet: ≤ 1024px ───────────────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .grid-4 { grid-template-columns: repeat(2, 1fr); }
+  .grid-kpi { grid-template-columns: repeat(2, 1fr); }
+  .monitor-row { grid-template-columns: 20px 1fr 90px 90px; }
+  .monitor-row > :nth-child(5),
+  .monitor-row > :nth-child(6) { display: none; }
+}
+
+/* ── Tablet: ≤ 900px ────────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .grid-3 { grid-template-columns: 1fr 1fr; }
+  .grid-2-collapse { grid-template-columns: 1fr; }
+
+  .timing-row { grid-template-columns: 110px 1fr 60px; }
+}
+
+/* ── Mobile: ≤ 768px ─────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  /* Sidebar hides off-screen on mobile, toggled via JS */
+  .sidebar {
+    transform: translateX(-100%);
+    z-index: 300;
+  }
+  .sidebar.sidebar--mobile-open {
+    transform: translateX(0);
+    width: var(--sidebar-width);
+  }
+  .sidebar--collapsed {
+    transform: translateX(-100%);
+  }
+
+  /* Main area fills full width */
+  .main-area { margin-left: 0; }
+
+  /* Show mobile menu button */
+  .topbar__mobile-toggle { display: flex; }
+
+  /* Page content padding */
+  .page-content { padding: 1rem; }
+
+  /* KPI grid single column */
+  .grid-kpi { grid-template-columns: 1fr 1fr; }
+  .grid-4   { grid-template-columns: 1fr 1fr; }
+  .grid-3   { grid-template-columns: 1fr; }
+  .grid-2   { grid-template-columns: 1fr; }
+
+  /* Page header stacks */
+  .page-header { flex-direction: column; }
+  .page-header__actions { width: 100%; justify-content: flex-start; }
+
+  /* Monitor row simplified */
+  .monitor-row {
+    grid-template-columns: 20px 1fr 80px;
+  }
+  .monitor-row > :nth-child(4),
+  .monitor-row > :nth-child(5),
+  .monitor-row > :nth-child(6) { display: none; }
+
+  /* Server cards single column */
+  .servers-grid { grid-template-columns: 1fr; }
+
+  /* Table horizontal scroll */
+  .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+  /* Topbar search hidden on small screens */
+  .topbar__search  { display: none; }
+  .topbar__status  { display: none; }
+  .topbar__last-updated { display: none; }
+
+  /* Modal full-screen */
+  .modal-backdrop { align-items: flex-end; padding: 0; }
+  .modal {
+    max-width: 100%;
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    max-height: 90vh;
+  }
+
+  /* Form rows stack */
+  .form-row { grid-template-columns: 1fr; }
+
+  /* Tabs scroll */
+  .tabs { overflow-x: auto; }
+
+  /* Latency stats wrap */
+  .latency-stats { gap: 1rem; }
+
+  /* Timing breakdown collapses */
+  .timing-row { grid-template-columns: 100px 1fr 55px; }
+
+  /* Charts slightly shorter */
+  .chart-container--lg { height: 220px; }
+  .chart-container--xl { height: 260px; }
+
+  /* Section header wraps */
+  .section-header { flex-wrap: wrap; gap: 0.5rem; }
+}
+
+/* ── Small mobile: ≤ 480px ───────────────────────────────────────────────────── */
+@media (max-width: 480px) {
+  .grid-kpi { grid-template-columns: 1fr; }
+  .grid-4   { grid-template-columns: 1fr; }
+  .kpi-card__value { font-size: 1.625rem; }
+
+  .monitor-row {
+    grid-template-columns: 20px 1fr;
+    gap: 0.5rem;
+  }
+  .monitor-row > :nth-child(3),
+  .monitor-row > :nth-child(4),
+  .monitor-row > :nth-child(5),
+  .monitor-row > :nth-child(6) { display: none; }
+
+  .toast { min-width: unset; width: calc(100vw - 2rem); }
+  .toast-container { right: 1rem; left: 1rem; }
+
+  .filter-bar { flex-direction: column; align-items: stretch; }
+  .search-input { width: 100%; }
+
+  .pagination__info { display: none; }
+}
+
+/* ── Print ────────────────────────────────────────────────────────────────────── */
+@media print {
+  .sidebar, .topbar, .toast-container, .offline-banner,
+  .btn, .filter-bar, .pagination { display: none !important; }
+  .main-area { margin-left: 0; }
+  .page-content { padding: 0; }
+  body { background: #fff; color: #000; }
+  .card, .kpi-card { border: 1px solid #ccc; }
+}

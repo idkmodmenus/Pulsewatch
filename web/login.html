@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PulseWatch — Sign In</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/base.css" />
+  <style>
+    body { display:flex; align-items:center; justify-content:center; min-height:100vh; background:var(--bg-page); }
+    .auth-wrap { width:100%; max-width:420px; padding:1.5rem; }
+    .auth-brand { display:flex; align-items:center; gap:0.625rem; justify-content:center; margin-bottom:2rem; }
+    .auth-brand__logo { width:36px; height:36px; }
+    .auth-brand__name { font-size:1.5rem; font-weight:700; letter-spacing:-0.03em; color:var(--text-primary); }
+    .auth-brand__name span { color:var(--color-accent); }
+    .auth-card { background:var(--bg-surface); border:1px solid var(--border); border-radius:var(--radius-xl); padding:2rem; }
+    .auth-tabs { display:flex; border-bottom:1px solid var(--border); margin-bottom:1.5rem; }
+    .auth-tab { flex:1; padding:0.625rem; text-align:center; font-size:0.875rem; font-weight:500; color:var(--text-muted); cursor:pointer; border-bottom:2px solid transparent; margin-bottom:-1px; transition:color var(--t-fast),border-color var(--t-fast); }
+    .auth-tab--active { color:var(--color-accent); border-bottom-color:var(--color-accent); }
+    .auth-panel { display:none; }
+    .auth-panel--active { display:block; }
+    .auth-title { font-size:1.125rem; font-weight:600; color:var(--text-primary); margin-bottom:0.25rem; }
+    .auth-sub   { font-size:0.8125rem; color:var(--text-muted); margin-bottom:1.5rem; }
+    .form-group { margin-bottom:1rem; }
+    .form-label { display:block; font-size:0.8125rem; font-weight:500; color:var(--text-secondary); margin-bottom:0.375rem; }
+    .form-input { width:100%; padding:0.5625rem 0.875rem; background:var(--bg-elevated); border:1px solid var(--border-strong); border-radius:var(--radius); color:var(--text-primary); font-size:0.875rem; transition:border-color var(--t-fast),box-shadow var(--t-fast); }
+    .form-input:focus { outline:none; border-color:var(--border-focus); box-shadow:0 0 0 3px rgba(59,130,246,0.15); }
+    .form-input::placeholder { color:var(--text-muted); }
+    .form-input--error { border-color:var(--color-danger); }
+    .field-error { font-size:0.75rem; color:var(--color-danger); margin-top:0.25rem; display:none; }
+    .field-error--visible { display:block; }
+    .auth-submit { width:100%; padding:0.625rem; border-radius:var(--radius); background:var(--color-accent); color:#fff; font-size:0.875rem; font-weight:600; border:none; cursor:pointer; transition:background var(--t-fast),opacity var(--t-fast); margin-top:0.5rem; }
+    .auth-submit:hover { background:var(--color-accent-hover); }
+    .auth-submit:disabled { opacity:0.6; cursor:not-allowed; }
+    .auth-error { background:var(--color-danger-dim); border:1px solid rgba(239,68,68,0.3); color:var(--color-danger); border-radius:var(--radius); padding:0.625rem 0.875rem; font-size:0.8125rem; margin-bottom:1rem; display:none; }
+    .auth-error--visible { display:block; }
+    .auth-footer-link { text-align:center; font-size:0.8125rem; color:var(--text-muted); margin-top:1.25rem; }
+    .auth-footer-link a { color:var(--color-accent); }
+    .auth-divider { display:flex; align-items:center; gap:0.75rem; margin:1.25rem 0; }
+    .auth-divider::before,.auth-divider::after { content:''; flex:1; height:1px; background:var(--border); }
+    .auth-divider span { font-size:0.75rem; color:var(--text-muted); white-space:nowrap; }
+    .spinner-inline { display:inline-block; width:14px; height:14px; border:2px solid rgba(255,255,255,0.3); border-top-color:#fff; border-radius:50%; animation:spin-btn 0.7s linear infinite; vertical-align:middle; margin-right:0.375rem; }
+    @keyframes spin-btn { to { transform:rotate(360deg); } }
+  </style>
+</head>
+<body>
+  <div class="auth-wrap">
+    <div class="auth-brand">
+      <svg class="auth-brand__logo" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="36" height="36" rx="10" fill="#1e3a5f"/>
+        <polyline points="4,18 9,18 13,8 18,28 22,14 26,18 32,18" fill="none" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div class="auth-brand__name">Pulse<span>Watch</span></div>
+    </div>
+
+    <div class="auth-card">
+      <div class="auth-tabs">
+        <button class="auth-tab auth-tab--active" data-panel="login">Sign In</button>
+        <button class="auth-tab" data-panel="register">Create Account</button>
+      </div>
+
+      <!-- Login Panel -->
+      <div class="auth-panel auth-panel--active" id="panel-login">
+        <p class="auth-sub">Monitor your infrastructure. Get alerted instantly.</p>
+        <div class="auth-error" id="login-error"></div>
+        <form id="login-form" novalidate>
+          <div class="form-group">
+            <label class="form-label" for="login-email">Email address</label>
+            <input class="form-input" id="login-email" type="email" autocomplete="email" placeholder="you@example.com" required />
+            <div class="field-error" id="login-email-err">Please enter a valid email.</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="login-password">
+              Password
+              <a href="#" id="forgot-link" style="float:right;font-size:0.75rem;color:var(--color-accent)">Forgot password?</a>
+            </label>
+            <input class="form-input" id="login-password" type="password" autocomplete="current-password" placeholder="••••••••••" required />
+            <div class="field-error" id="login-pass-err">Password is required.</div>
+          </div>
+          <button class="auth-submit" type="submit" id="login-btn">Sign In</button>
+        </form>
+      </div>
+
+      <!-- Register Panel -->
+      <div class="auth-panel" id="panel-register">
+        <p class="auth-sub">Set up your workspace and start monitoring in minutes.</p>
+        <div class="auth-error" id="reg-error"></div>
+        <form id="reg-form" novalidate>
+          <div class="form-group">
+            <label class="form-label" for="reg-name">Your name</label>
+            <input class="form-input" id="reg-name" type="text" autocomplete="name" placeholder="Jane Smith" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="reg-org">Organization name</label>
+            <input class="form-input" id="reg-org" type="text" placeholder="Acme Corp" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="reg-email">Email address</label>
+            <input class="form-input" id="reg-email" type="email" autocomplete="email" placeholder="you@example.com" required />
+            <div class="field-error" id="reg-email-err">Please enter a valid email.</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="reg-password">Password <span style="color:var(--text-muted);font-weight:400">(min 10 chars)</span></label>
+            <input class="form-input" id="reg-password" type="password" autocomplete="new-password" placeholder="••••••••••" required minlength="10" />
+            <div class="field-error" id="reg-pass-err">Use at least 10 characters.</div>
+          </div>
+          <button class="auth-submit" type="submit" id="reg-btn">Create Account</button>
+        </form>
+      </div>
+
+      <!-- Forgot password panel -->
+      <div class="auth-panel" id="panel-reset">
+        <p class="auth-sub">Enter your email and we'll send a reset link.</p>
+        <div class="auth-error" id="reset-error"></div>
+        <div id="reset-success" style="display:none;background:var(--color-success-dim);border:1px solid rgba(34,197,94,0.3);color:var(--color-success);border-radius:var(--radius);padding:0.625rem 0.875rem;font-size:0.8125rem;margin-bottom:1rem;">Reset link sent — check your inbox.</div>
+        <form id="reset-form" novalidate>
+          <div class="form-group">
+            <label class="form-label" for="reset-email">Email address</label>
+            <input class="form-input" id="reset-email" type="email" placeholder="you@example.com" required />
+          </div>
+          <button class="auth-submit" type="submit" id="reset-btn">Send Reset Link</button>
+        </form>
+        <div class="auth-footer-link"><a href="#" id="back-to-login">← Back to sign in</a></div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { login, register, redirectToDashboard } from './js/auth.js';
+    import { Auth } from './js/api.js';
+
+    // ── Tab switching ──────────────────────────────────────────────────────
+    document.querySelectorAll('.auth-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('auth-tab--active'));
+        document.querySelectorAll('.auth-panel').forEach(p => p.classList.remove('auth-panel--active'));
+        tab.classList.add('auth-tab--active');
+        document.getElementById('panel-' + tab.dataset.panel).classList.add('auth-panel--active');
+      });
+    });
+
+    // ── Show reset panel ───────────────────────────────────────────────────
+    document.getElementById('forgot-link').addEventListener('click', (e) => {
+      e.preventDefault();
+      document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('auth-tab--active'));
+      document.querySelectorAll('.auth-panel').forEach(p => p.classList.remove('auth-panel--active'));
+      document.getElementById('panel-reset').classList.add('auth-panel--active');
+    });
+    document.getElementById('back-to-login').addEventListener('click', (e) => {
+      e.preventDefault();
+      document.querySelectorAll('.auth-tab')[0].click();
+    });
+
+    function setLoading(btnId, loading) {
+      const btn = document.getElementById(btnId);
+      if (loading) {
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner-inline"></span>Please wait…';
+      } else {
+        btn.disabled = false;
+        btn.innerHTML = btn.id === 'login-btn' ? 'Sign In' : btn.id === 'reg-btn' ? 'Create Account' : 'Send Reset Link';
+      }
+    }
+
+    function showError(id, msg) {
+      const el = document.getElementById(id);
+      el.textContent = msg;
+      el.classList.add('auth-error--visible');
+    }
+    function hideError(id) {
+      document.getElementById(id).classList.remove('auth-error--visible');
+    }
+
+    // ── Login ──────────────────────────────────────────────────────────────
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('login-email').value.trim();
+      const pass  = document.getElementById('login-password').value;
+      hideError('login-error');
+      if (!email || !pass) return;
+      setLoading('login-btn', true);
+      try {
+        await login(email, pass);
+        redirectToDashboard();
+      } catch (err) {
+        showError('login-error', err.message ?? 'Sign in failed.');
+      } finally {
+        setLoading('login-btn', false);
+      }
+    });
+
+    // ── Register ───────────────────────────────────────────────────────────
+    document.getElementById('reg-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name  = document.getElementById('reg-name').value.trim();
+      const org   = document.getElementById('reg-org').value.trim();
+      const email = document.getElementById('reg-email').value.trim();
+      const pass  = document.getElementById('reg-password').value;
+      hideError('reg-error');
+      if (pass.length < 10) {
+        document.getElementById('reg-pass-err').classList.add('field-error--visible');
+        return;
+      }
+      document.getElementById('reg-pass-err').classList.remove('field-error--visible');
+      setLoading('reg-btn', true);
+      try {
+        await register(email, pass, name, org);
+        redirectToDashboard();
+      } catch (err) {
+        showError('reg-error', err.message ?? 'Registration failed.');
+      } finally {
+        setLoading('reg-btn', false);
+      }
+    });
+
+    // ── Password reset ─────────────────────────────────────────────────────
+    document.getElementById('reset-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('reset-email').value.trim();
+      if (!email) return;
+      setLoading('reset-btn', true);
+      hideError('reset-error');
+      try {
+        await Auth.requestReset(email);
+        document.getElementById('reset-success').style.display = 'block';
+        document.getElementById('reset-form').style.display = 'none';
+      } catch (err) {
+        showError('reset-error', err.message ?? 'Request failed.');
+      } finally {
+        setLoading('reset-btn', false);
+      }
+    });
+
+    // ── Already authed? ────────────────────────────────────────────────────
+    (async () => {
+      try {
+        await Auth.me();
+        redirectToDashboard();
+      } catch {}
+    })();
+  </script>
+</body>
+</html>

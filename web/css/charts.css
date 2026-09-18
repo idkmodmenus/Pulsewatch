@@ -1,0 +1,142 @@
+/* PulseWatch — charts.css
+   Chart container sizing, loading states, empty states, tooltips, and legends.
+*/
+
+/* ── Chart containers ─────────────────────────────────────────────────────────── */
+.chart-container {
+  position: relative;
+  width: 100%;
+}
+.chart-container--sm  { height: 160px; }
+.chart-container--md  { height: 220px; }
+.chart-container--lg  { height: 300px; }
+.chart-container--xl  { height: 380px; }
+
+.chart-container canvas {
+  display: block;
+  width: 100% !important;
+}
+
+/* Loading overlay */
+.chart-container--loading::after {
+  content: '';
+  position: absolute; inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-surface);
+  border-radius: var(--radius);
+  animation: skeleton-shimmer 1.6s infinite;
+  background: linear-gradient(90deg,
+    var(--bg-elevated) 25%,
+    var(--bg-hover) 50%,
+    var(--bg-elevated) 75%);
+  background-size: 200% 100%;
+}
+
+/* ── Chart card ────────────────────────────────────────────────────────────────── */
+.chart-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.chart-card__header {
+  padding: 0.875rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.chart-card__title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.chart-card__controls {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.chart-card__body {
+  padding: 1rem 1.25rem;
+}
+
+/* ── Time range buttons ────────────────────────────────────────────────────────── */
+.range-btns { display: flex; gap: 0.25rem; }
+.range-btn {
+  padding: 0.25rem 0.625rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  background: transparent;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: background var(--t-fast), color var(--t-fast), border-color var(--t-fast);
+}
+.range-btn:hover  { background: var(--bg-hover); color: var(--text-primary); border-color: var(--border-strong); }
+.range-btn--active { background: var(--color-accent-dim); color: var(--color-accent); border-color: rgba(59,130,246,0.35); font-weight: 600; }
+
+/* ── Legend ─────────────────────────────────────────────────────────────────────── */
+.chart-legend {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 0.5rem 0 0;
+}
+.chart-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+.chart-legend-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.chart-legend-line {
+  width: 16px; height: 2px;
+  flex-shrink: 0;
+}
+
+/* ── Latency stats row ──────────────────────────────────────────────────────────── */
+.latency-stats {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  padding: 0.75rem 0 0;
+  border-top: 1px solid var(--border);
+  margin-top: 0.75rem;
+}
+.latency-stat { display: flex; flex-direction: column; gap: 0.1rem; }
+.latency-stat__label { font-size: 0.6875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-muted); }
+.latency-stat__value { font-size: 1.125rem; font-weight: 700; font-family: var(--font-mono); color: var(--text-primary); letter-spacing: -0.02em; }
+.latency-stat__value--accent  { color: var(--color-accent);  }
+.latency-stat__value--success { color: var(--color-success); }
+.latency-stat__value--warn    { color: var(--color-warn);    }
+.latency-stat__value--danger  { color: var(--color-danger);  }
+
+/* ── Sparkline ──────────────────────────────────────────────────────────────────── */
+.sparkline { display: block; overflow: visible; }
+
+/* ── Server gauge group ──────────────────────────────────────────────────────────── */
+.metric-gauges { display: flex; flex-direction: column; gap: 0.75rem; }
+.metric-gauge-row { }
+.metric-gauge-row__header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.3rem; }
+.metric-gauge-row__name   { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); }
+.metric-gauge-row__value  { font-size: 0.8125rem; font-weight: 700; font-family: var(--font-mono); }
+
+/* ── Network stats ───────────────────────────────────────────────────────────────── */
+.network-stats { display: flex; gap: 1.5rem; }
+.network-stat { display: flex; flex-direction: column; gap: 0.125rem; }
+.network-stat__label { font-size: 0.6875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-muted); }
+.network-stat__value { font-size: 0.9375rem; font-weight: 700; font-family: var(--font-mono); color: var(--text-primary); }

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PulseWatch — Monitor Detail</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/base.css" /><link rel="stylesheet" href="css/components.css" /><link rel="stylesheet" href="css/charts.css" /><link rel="stylesheet" href="css/responsive.css" />
+  <script>window.PW_API_BASE='/api';</script>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar" id="sidebar">
+    <a href="index.html" class="sidebar__brand"><div class="sidebar__logo"><svg viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="7" fill="#1e3a5f"/><polyline points="3,14 7,14 10,6 14,22 17,11 20,14 25,14" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="sidebar__brand-name">Pulse<span>Watch</span></span></a>
+    <nav class="sidebar__nav"><ul style="list-style:none;padding:0;margin:0">
+      <li class="sidebar__item"><a href="index.html"     class="sidebar__link"><span class="sidebar__link-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="1" y="1" width="6" height="6" rx="1"/><rect x="9" y="1" width="6" height="6" rx="1"/><rect x="1" y="9" width="6" height="6" rx="1"/><rect x="9" y="9" width="6" height="6" rx="1"/></svg></span><span class="sidebar__link-label">Dashboard</span></a></li>
+      <li class="sidebar__item"><a href="monitors.html"  class="sidebar__link"><span class="sidebar__link-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><polyline points="1,8 4,8 6,3 9,13 11,6 13,8 15,8"/></svg></span><span class="sidebar__link-label">Monitors</span></a></li>
+      <li class="sidebar__item"><a href="servers.html"   class="sidebar__link"><span class="sidebar__link-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="1" y="2" width="14" height="5" rx="1"/><rect x="1" y="9" width="14" height="5" rx="1"/></svg></span><span class="sidebar__link-label">Servers</span></a></li>
+      <li class="sidebar__item"><a href="incidents.html" class="sidebar__link"><span class="sidebar__link-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 1.5L1 13.5h14L8 1.5z"/></svg></span><span class="sidebar__link-label">Incidents</span></a></li>
+      <li class="sidebar__item"><a href="analytics.html" class="sidebar__link"><span class="sidebar__link-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><polyline points="1,12 5,7 8,9 11,5 15,2"/></svg></span><span class="sidebar__link-label">Analytics</span></a></li>
+      <li class="sidebar__item"><a href="settings.html"  class="sidebar__link"><span class="sidebar__link-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="8" cy="8" r="2"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2"/></svg></span><span class="sidebar__link-label">Settings</span></a></li>
+    </ul></nav>
+    <div class="sidebar__footer">
+      <div class="sidebar__user"><div class="sidebar__avatar" data-user-avatar>JD</div><div class="sidebar__footer-text"><div class="sidebar__user-name" data-user-name>—</div><div class="sidebar__org-name" data-org-name>—</div></div></div>
+      <div class="sidebar__status-row"><div class="connection-indicator indicator--connecting" id="connection-indicator"><span class="indicator__dot"></span><span class="indicator__text">Connecting</span></div></div>
+    </div>
+  </aside>
+  <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+  <div class="main-area">
+    <header class="topbar">
+      <button class="topbar__mobile-toggle" id="sidebar-toggle" aria-label="Toggle menu"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg></button>
+      <div class="topbar__search"><div class="topbar__search-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="7" cy="7" r="5"/><line x1="11.5" y1="11.5" x2="14" y2="14"/></svg></div><input id="global-search" type="search" placeholder="Search…" /></div>
+      <div class="topbar__right">
+        <button class="topbar__btn" id="refresh-btn" title="Refresh"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 8A6 6 0 112 8"/><polyline points="2,4 2,8 6,8"/></svg></button>
+        <div class="dropdown-wrap"><button class="topbar__btn" data-dropdown="user-menu" aria-expanded="false"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="8" cy="5" r="3"/><path d="M2 14c0-3 2.7-5 6-5s6 2 6 5"/></svg></button><div class="dropdown-menu" id="user-menu"><button class="dropdown-item dropdown-item--danger" id="logout-btn">Sign out</button></div></div>
+      </div>
+    </header>
+
+    <main class="page-content">
+      <!-- Breadcrumb -->
+      <nav style="font-size:0.8125rem;color:var(--text-muted);margin-bottom:1rem"><a href="monitors.html" style="color:var(--text-muted)">Monitors</a> <span style="margin:0 0.375rem;opacity:0.4">›</span> <span id="breadcrumb-name">Loading…</span></nav>
+
+      <!-- Monitor header -->
+      <div class="page-header" id="monitor-header">
+        <div class="page-header__left" style="display:flex;align-items:flex-start;gap:0.875rem">
+          <div id="monitor-status-dot" style="margin-top:0.5rem"><span class="status-dot status-pending"></span></div>
+          <div>
+            <h1 class="page-header__title" id="monitor-title"><div class="skeleton skeleton--line" style="width:220px;height:1.5rem"></div></h1>
+            <div style="display:flex;align-items:center;gap:0.5rem;margin-top:0.25rem;flex-wrap:wrap">
+              <code style="font-size:0.8125rem;color:var(--text-muted)" id="monitor-url">—</code>
+              <span id="monitor-type-tag"></span>
+              <span id="monitor-status-badge"></span>
+            </div>
+          </div>
+        </div>
+        <div class="page-header__actions">
+          <button class="btn btn--ghost btn--sm" id="run-check-btn">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5 3 13 8 5 13 5 3"/></svg>
+            Run Check
+          </button>
+          <button class="btn btn--ghost btn--sm" id="edit-monitor-btn">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M11 2l3 3-9 9H2v-3L11 2z"/></svg>
+            Edit
+          </button>
+          <button class="btn btn--danger btn--sm" id="delete-monitor-btn">Delete</button>
+        </div>
+      </div>
+
+      <!-- Quick stats row -->
+      <div class="grid-4" style="margin-bottom:1.5rem" id="monitor-stats">
+        <div class="kpi-card"><div class="kpi-card__label">Uptime (24h)</div><div class="kpi-card__value kpi-card__value--accent" id="stat-uptime-day">—</div></div>
+        <div class="kpi-card"><div class="kpi-card__label">Uptime (7d)</div><div class="kpi-card__value kpi-card__value--accent" id="stat-uptime-week">—</div></div>
+        <div class="kpi-card"><div class="kpi-card__label">Uptime (30d)</div><div class="kpi-card__value kpi-card__value--accent" id="stat-uptime-month">—</div></div>
+        <div class="kpi-card"><div class="kpi-card__label">Current Latency</div><div class="kpi-card__value" id="stat-latency">—</div></div>
+      </div>
+
+      <!-- Latency percentiles row -->
+      <div class="chart-card" style="margin-bottom:1.5rem">
+        <div class="chart-card__header">
+          <span class="chart-card__title">Response Time</span>
+          <div class="chart-card__controls">
+            <div class="range-btns">
+              <button class="range-btn" data-window="1h">1h</button>
+              <button class="range-btn" data-window="6h">6h</button>
+              <button class="range-btn range-btn--active" data-window="24h">24h</button>
+              <button class="range-btn" data-window="7d">7d</button>
+              <button class="range-btn" data-window="30d">30d</button>
+            </div>
+          </div>
+        </div>
+        <div class="chart-card__body">
+          <div class="latency-stats">
+            <div class="latency-stat"><div class="latency-stat__label">Current</div><div class="latency-stat__value latency-stat__value--accent" id="p-current">—</div></div>
+            <div class="latency-stat"><div class="latency-stat__label">Avg</div><div class="latency-stat__value" id="p-avg">—</div></div>
+            <div class="latency-stat"><div class="latency-stat__label">P50</div><div class="latency-stat__value" id="p-p50">—</div></div>
+            <div class="latency-stat"><div class="latency-stat__label">P95</div><div class="latency-stat__value latency-stat__value--warn" id="p-p95">—</div></div>
+            <div class="latency-stat"><div class="latency-stat__label">P99</div><div class="latency-stat__value latency-stat__value--danger" id="p-p99">—</div></div>
+          </div>
+          <div class="chart-container chart-container--md" style="margin-top:1rem">
+            <canvas id="latency-chart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="tabs" role="tablist" id="monitor-tabs">
+        <button class="tab" role="tab" aria-selected="true"  aria-controls="tab-overview"  data-tab="overview"  tabindex="0">Overview</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="tab-checks"    data-tab="checks"    tabindex="-1">Check History</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="tab-incidents" data-tab="incidents" tabindex="-1">Incidents</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="tab-dns"       data-tab="dns"       tabindex="-1">DNS / IP</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="tab-ssl"       data-tab="ssl"       tabindex="-1">SSL</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="tab-config"    data-tab="config"    tabindex="-1">Configuration</button>
+      </div>
+
+      <!-- Tab panels -->
+      <div role="tabpanel" id="tab-overview">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card__header"><span class="card__title">Request Timing</span></div>
+            <div class="card__body" id="timing-breakdown-wrap">
+              <div class="skeleton skeleton--line" style="margin-bottom:0.5rem"></div>
+              <div class="skeleton skeleton--line" style="margin-bottom:0.5rem;width:80%"></div>
+              <div class="skeleton skeleton--line" style="width:70%"></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card__header"><span class="card__title">Recent Checks</span></div>
+            <div class="table-wrap">
+              <table class="data-table">
+                <thead><tr><th>Time</th><th>Status</th><th>Latency</th><th>HTTP</th><th>IP</th></tr></thead>
+                <tbody id="recent-checks-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div role="tabpanel" id="tab-checks" hidden>
+        <div class="card">
+          <div class="card__header">
+            <span class="card__title">Check History</span>
+            <div style="display:flex;gap:0.5rem;align-items:center">
+              <label class="form-checkbox"><input type="checkbox" id="failures-only" /><span style="font-size:0.8125rem;color:var(--text-muted)">Failures only</span></label>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead><tr><th>Timestamp</th><th>Status</th><th>Latency</th><th>DNS</th><th>TCP</th><th>TLS</th><th>TTFB</th><th>HTTP</th><th>IP</th><th>Error</th></tr></thead>
+              <tbody id="checks-tbody"></tbody>
+            </table>
+          </div>
+          <div class="card__footer"><button class="btn btn--ghost" id="load-more-checks">Load more</button></div>
+        </div>
+      </div>
+
+      <div role="tabpanel" id="tab-incidents" hidden>
+        <div class="card" id="monitor-incidents-card">
+          <div class="card__header"><span class="card__title">Incidents</span></div>
+          <div id="monitor-incidents-list"></div>
+        </div>
+      </div>
+
+      <div role="tabpanel" id="tab-dns" hidden>
+        <div class="grid-2">
+          <div class="card">
+            <div class="card__header"><span class="card__title">Resolved Addresses</span></div>
+            <div class="table-wrap">
+              <table class="data-table">
+                <thead><tr><th>IP Address</th><th>Family</th><th>First Seen</th><th>Last Seen</th></tr></thead>
+                <tbody id="dns-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card__header"><span class="card__title">IP Change History</span></div>
+            <div id="ip-change-info" style="padding:1rem;font-size:0.8125rem;color:var(--text-muted)">Loading…</div>
+          </div>
+        </div>
+      </div>
+
+      <div role="tabpanel" id="tab-ssl" hidden>
+        <div class="card" style="max-width:480px">
+          <div class="card__header"><span class="card__title">SSL Certificate</span></div>
+          <div class="card__body" id="ssl-info">
+            <div class="skeleton skeleton--line" style="margin-bottom:0.75rem"></div>
+            <div class="skeleton skeleton--line" style="width:70%"></div>
+          </div>
+        </div>
+      </div>
+
+      <div role="tabpanel" id="tab-config" hidden>
+        <div class="card" style="max-width:600px">
+          <div class="card__header"><span class="card__title">Configuration</span></div>
+          <div class="card__body" id="config-info">
+            <div class="skeleton skeleton--line" style="margin-bottom:0.75rem"></div>
+            <div class="skeleton skeleton--line" style="width:80%"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<script type="module" src="js/monitor.js"></script>
+</body>
+</html>

@@ -1,18 +1,207 @@
-<!doctype html>
-<html lang="en" class="dark">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Pulsewatch</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PulseWatch — Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/charts.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+  <script>window.PW_API_BASE = '/api';</script>
+</head>
+<body>
+<div class="app">
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <a href="index.html" class="sidebar__brand">
+      <div class="sidebar__logo">
+        <svg viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="7" fill="#1e3a5f"/><polyline points="3,14 7,14 10,6 14,22 17,11 20,14 25,14" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <span class="sidebar__brand-name">Pulse<span>Watch</span></span>
+    </a>
+    <nav class="sidebar__nav" aria-label="Main navigation">
+      <ul style="list-style:none;padding:0;margin:0">
+        <li class="sidebar__item"><a href="index.html"        class="sidebar__link"><span class="sidebar__link-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="1" y="1" width="6" height="6" rx="1"/><rect x="9" y="1" width="6" height="6" rx="1"/><rect x="1" y="9" width="6" height="6" rx="1"/><rect x="9" y="9" width="6" height="6" rx="1"/></svg></span><span class="sidebar__link-label">Dashboard</span></a></li>
+        <li class="sidebar__item"><a href="monitors.html"     class="sidebar__link"><span class="sidebar__link-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><polyline points="1,8 4,8 6,3 9,13 11,6 13,8 15,8"/></svg></span><span class="sidebar__link-label">Monitors</span></a></li>
+        <li class="sidebar__item"><a href="servers.html"      class="sidebar__link"><span class="sidebar__link-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="1" y="2" width="14" height="5" rx="1"/><rect x="1" y="9" width="14" height="5" rx="1"/><line x1="4" y1="4.5" x2="4.01" y2="4.5"/><line x1="4" y1="11.5" x2="4.01" y2="11.5"/></svg></span><span class="sidebar__link-label">Servers</span></a></li>
+        <li class="sidebar__item"><a href="incidents.html"    class="sidebar__link"><span class="sidebar__link-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 1.5L1 13.5h14L8 1.5z"/><line x1="8" y1="6" x2="8" y2="9"/><line x1="8" y1="11" x2="8.01" y2="11"/></svg></span><span class="sidebar__link-label">Incidents</span><span class="sidebar__link-badge" id="sidebar-incident-count" style="display:none">0</span></a></li>
+        <li class="sidebar__item"><a href="status-pages.html" class="sidebar__link"><span class="sidebar__link-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="8" cy="8" r="6"/><path d="M5 8l2 2 4-4"/></svg></span><span class="sidebar__link-label">Status Pages</span></a></li>
+        <li class="sidebar__item"><a href="incidents.html#notifications" class="sidebar__link"><span class="sidebar__link-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 5a4 4 0 00-8 0c0 5-2 6-2 6h12s-2-1-2-6"/><path d="M9.73 13a2 2 0 01-3.46 0"/></svg></span><span class="sidebar__link-label">Notifications</span></a></li>
+        <li class="sidebar__item"><a href="settings.html#maintenance" class="sidebar__link"><span class="sidebar__link-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="1" y="4" width="14" height="9" rx="1"/><path d="M5 4V2.5a1 1 0 012 0V4M9 4V2.5a1 1 0 012 0V4"/></svg></span><span class="sidebar__link-label">Maintenance</span></a></li>
+        <li class="sidebar__item"><a href="analytics.html"    class="sidebar__link"><span class="sidebar__link-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><polyline points="1,12 5,7 8,9 11,5 15,2"/><polyline points="11,2 15,2 15,6"/></svg></span><span class="sidebar__link-label">Analytics</span></a></li>
+        <li class="sidebar__item"><a href="settings.html"     class="sidebar__link"><span class="sidebar__link-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="8" cy="8" r="2"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.05 3.05l1.41 1.41M11.54 11.54l1.41 1.41M3.05 12.95l1.41-1.41M11.54 4.46l1.41-1.41"/></svg></span><span class="sidebar__link-label">Settings</span></a></li>
+      </ul>
+    </nav>
+    <div class="sidebar__footer">
+      <div class="sidebar__user" id="sidebar-user">
+        <div class="sidebar__avatar" data-user-avatar>JD</div>
+        <div class="sidebar__footer-text">
+          <div class="sidebar__user-name" data-user-name>Loading…</div>
+          <div class="sidebar__org-name"  data-org-name>—</div>
+        </div>
+      </div>
+      <div class="sidebar__status-row">
+        <div class="connection-indicator indicator--connecting" id="connection-indicator">
+          <span class="indicator__dot"></span>
+          <span class="indicator__text">Connecting</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+  <!-- Main area -->
+  <div class="main-area">
+    <!-- Topbar -->
+    <header class="topbar">
+      <button class="topbar__mobile-toggle" id="sidebar-toggle" aria-label="Toggle menu">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>
+      </button>
+      <div class="topbar__search">
+        <div class="topbar__search-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="7" cy="7" r="5"/><line x1="11.5" y1="11.5" x2="14" y2="14"/></svg></div>
+        <input id="global-search" type="search" placeholder="Search monitors, servers, incidents…" autocomplete="off" aria-label="Global search" />
+        <span class="topbar__search-hint">⌘K</span>
+      </div>
+      <div class="topbar__right">
+        <div class="topbar__status topbar__status--operational" id="system-status-pill">
+          <span class="status-dot"></span>
+          <span id="system-status-text">All systems operational</span>
+        </div>
+        <span class="topbar__last-updated">Updated <span id="last-updated-text">—</span></span>
+        <button class="topbar__btn" id="refresh-btn" title="Refresh" aria-label="Refresh">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 8A6 6 0 112 8"/><polyline points="2,4 2,8 6,8"/></svg>
+        </button>
+        <div class="dropdown-wrap">
+          <button class="topbar__btn" data-dropdown="user-menu" aria-label="User menu" aria-expanded="false">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="8" cy="5" r="3"/><path d="M2 14c0-3 2.7-5 6-5s6 2 6 5"/></svg>
+          </button>
+          <div class="dropdown-menu" id="user-menu">
+            <div class="dropdown-item" style="cursor:default;opacity:0.6;font-size:0.75rem" id="topbar-user-name">—</div>
+            <div class="dropdown-divider"></div>
+            <a href="settings.html" class="dropdown-item">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="8" cy="8" r="2"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2"/></svg>Settings
+            </a>
+            <button class="dropdown-item dropdown-item--danger" id="logout-btn">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M10 3h3a1 1 0 011 1v8a1 1 0 01-1 1h-3M7 11l3-3-3-3M10 8H3"/></svg>Sign out
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Page content -->
+    <main class="page-content" id="page-content">
+      <!-- Page header -->
+      <div class="page-header">
+        <div class="page-header__left">
+          <h1 class="page-header__title">Dashboard</h1>
+          <p class="page-header__subtitle">Overview of your monitoring infrastructure</p>
+        </div>
+        <div class="page-header__actions">
+          <a href="monitors.html?new=1" class="btn btn--primary">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="2" x2="8" y2="14"/><line x1="2" y1="8" x2="14" y2="8"/></svg>
+            Add Monitor
+          </a>
+        </div>
+      </div>
+
+      <!-- KPI cards -->
+      <div class="grid-kpi" id="kpi-grid" style="margin-bottom:1.5rem">
+        <div class="kpi-card"><div class="kpi-card__label"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="1,7 4,7 5,3 7,11 9,5 11,7 13,7"/></svg> Total Monitors</div><div class="kpi-card__value" id="kpi-total"><div class="skeleton skeleton--line" style="width:40%;height:2rem"></div></div><div class="kpi-card__sub" id="kpi-total-sub">&nbsp;</div></div>
+        <div class="kpi-card"><div class="kpi-card__label"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="2,7 5,10 12,4"/></svg> Online</div><div class="kpi-card__value kpi-card__value--success" id="kpi-up"><div class="skeleton skeleton--line" style="width:35%;height:2rem"></div></div><div class="kpi-card__sub" id="kpi-up-sub">&nbsp;</div></div>
+        <div class="kpi-card"><div class="kpi-card__label"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="2" y1="2" x2="12" y2="12"/><line x1="12" y1="2" x2="2" y2="12"/></svg> Down</div><div class="kpi-card__value kpi-card__value--danger" id="kpi-down"><div class="skeleton skeleton--line" style="width:30%;height:2rem"></div></div><div class="kpi-card__sub" id="kpi-down-sub">&nbsp;</div></div>
+        <div class="kpi-card"><div class="kpi-card__label"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 1l1.3 3.9H13L9.3 7.7l1.3 3.9L7 9.3 3.4 11.6l1.3-3.9L1 4.9h4.7z"/></svg> Degraded</div><div class="kpi-card__value kpi-card__value--warn" id="kpi-degraded"><div class="skeleton skeleton--line" style="width:30%;height:2rem"></div></div><div class="kpi-card__sub" id="kpi-degraded-sub">&nbsp;</div></div>
+        <div class="kpi-card"><div class="kpi-card__label"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="1,12 5,5 7,8 9,4 13,1"/></svg> Uptime (30d)</div><div class="kpi-card__value kpi-card__value--accent" id="kpi-uptime"><div class="skeleton skeleton--line" style="width:50%;height:2rem"></div></div><div class="kpi-card__sub" id="kpi-uptime-sub">&nbsp;</div></div>
+        <div class="kpi-card"><div class="kpi-card__label"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="7" cy="7" r="6"/><polyline points="7,4 7,7 9,9"/></svg> Avg Latency</div><div class="kpi-card__value kpi-card__value--accent" id="kpi-latency"><div class="skeleton skeleton--line" style="width:45%;height:2rem"></div></div><div class="kpi-card__sub" id="kpi-latency-sub">&nbsp;</div></div>
+        <div class="kpi-card"><div class="kpi-card__label"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 1L2 12.5h10L7 1z"/><line x1="7" y1="5" x2="7" y2="8"/></svg> Open Incidents</div><div class="kpi-card__value kpi-card__value--danger" id="kpi-incidents"><div class="skeleton skeleton--line" style="width:30%;height:2rem"></div></div><div class="kpi-card__sub" id="kpi-incidents-sub">&nbsp;</div></div>
+        <div class="kpi-card"><div class="kpi-card__label"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="1" y="2" width="12" height="4" rx="1"/><rect x="1" y="8" width="12" height="4" rx="1"/></svg> Servers</div><div class="kpi-card__value" id="kpi-servers"><div class="skeleton skeleton--line" style="width:30%;height:2rem"></div></div><div class="kpi-card__sub" id="kpi-servers-sub">&nbsp;</div></div>
+      </div>
+
+      <!-- Main charts row -->
+      <div class="grid-2" style="margin-bottom:1.5rem">
+        <div class="chart-card">
+          <div class="chart-card__header">
+            <span class="chart-card__title">Latency &amp; Failures (24h)</span>
+            <div class="connection-indicator indicator--connecting" id="live-badge" style="font-size:0.65rem">
+              <span class="indicator__dot"></span><span class="indicator__text">Connecting</span>
+            </div>
+          </div>
+          <div class="chart-card__body">
+            <div class="chart-container chart-container--md chart-container--loading" id="dash-chart-wrap">
+              <canvas id="dash-chart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent incidents -->
+        <div class="card">
+          <div class="card__header">
+            <span class="card__title">Recent Incidents</span>
+            <a href="incidents.html" class="btn btn--ghost btn--sm">View all</a>
+          </div>
+          <div id="incidents-list" style="min-height:120px">
+            <div style="padding:1.25rem">
+              <div class="skeleton skeleton--line" style="margin-bottom:0.75rem"></div>
+              <div class="skeleton skeleton--line" style="width:80%;margin-bottom:0.75rem"></div>
+              <div class="skeleton skeleton--line" style="width:60%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Monitor status list -->
+      <div class="card" style="margin-bottom:1.5rem">
+        <div class="card__header">
+          <span class="card__title">Monitor Status</span>
+          <div style="display:flex;gap:0.5rem;align-items:center">
+            <a href="monitors.html" class="btn btn--ghost btn--sm">View all</a>
+          </div>
+        </div>
+        <div id="monitor-list-wrap" style="min-height:80px">
+          <table class="data-table" style="table-layout:fixed">
+            <thead><tr>
+              <th style="width:24px"></th>
+              <th>Monitor</th>
+              <th style="width:90px">Uptime</th>
+              <th style="width:90px">Latency</th>
+              <th style="width:120px">Last Check</th>
+              <th style="width:80px">Response</th>
+            </tr></thead>
+            <tbody id="monitor-table-body">
+              <tr><td colspan="6" style="padding:2rem;text-align:center"><div class="skeleton skeleton--line" style="width:60%;margin:0 auto"></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Bottom row: slowest + servers mini -->
+      <div class="grid-2">
+        <!-- Slowest monitors -->
+        <div class="card">
+          <div class="card__header"><span class="card__title">Slowest Monitors (1h)</span></div>
+          <div id="slowest-list" style="padding:0.5rem 0;min-height:80px">
+            <div style="padding:1rem"><div class="skeleton skeleton--line"></div></div>
+          </div>
+        </div>
+        <!-- Server health -->
+        <div class="card">
+          <div class="card__header">
+            <span class="card__title">Server Health</span>
+            <a href="servers.html" class="btn btn--ghost btn--sm">All servers</a>
+          </div>
+          <div id="agents-mini" style="padding:0.5rem 0;min-height:80px">
+            <div style="padding:1rem"><div class="skeleton skeleton--line"></div></div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<script type="module" src="js/dashboard.js"></script>
+</body>
 </html>

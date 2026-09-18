@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PulseWatch — Settings</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/base.css" /><link rel="stylesheet" href="css/components.css" /><link rel="stylesheet" href="css/responsive.css" />
+  <script>window.PW_API_BASE='/api';</script>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar" id="sidebar">
+    <a href="index.html" class="sidebar__brand"><div class="sidebar__logo"><svg viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="7" fill="#1e3a5f"/><polyline points="3,14 7,14 10,6 14,22 17,11 20,14 25,14" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="sidebar__brand-name">Pulse<span>Watch</span></span></a>
+    <nav class="sidebar__nav"><ul style="list-style:none;padding:0;margin:0">
+      <li class="sidebar__item"><a href="index.html"     class="sidebar__link"><span class="sidebar__link-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="1" y="1" width="6" height="6" rx="1"/><rect x="9" y="1" width="6" height="6" rx="1"/><rect x="1" y="9" width="6" height="6" rx="1"/><rect x="9" y="9" width="6" height="6" rx="1"/></svg></span><span class="sidebar__link-label">Dashboard</span></a></li>
+      <li class="sidebar__item"><a href="monitors.html"  class="sidebar__link"><span class="sidebar__link-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><polyline points="1,8 4,8 6,3 9,13 11,6 13,8 15,8"/></svg></span><span class="sidebar__link-label">Monitors</span></a></li>
+      <li class="sidebar__item"><a href="servers.html"   class="sidebar__link"><span class="sidebar__link-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="1" y="2" width="14" height="5" rx="1"/><rect x="1" y="9" width="14" height="5" rx="1"/></svg></span><span class="sidebar__link-label">Servers</span></a></li>
+      <li class="sidebar__item"><a href="incidents.html" class="sidebar__link"><span class="sidebar__link-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 1.5L1 13.5h14L8 1.5z"/></svg></span><span class="sidebar__link-label">Incidents</span></a></li>
+      <li class="sidebar__item"><a href="analytics.html" class="sidebar__link"><span class="sidebar__link-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><polyline points="1,12 5,7 8,9 11,5 15,2"/></svg></span><span class="sidebar__link-label">Analytics</span></a></li>
+      <li class="sidebar__item"><a href="settings.html"  class="sidebar__link"><span class="sidebar__link-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="8" cy="8" r="2"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2"/></svg></span><span class="sidebar__link-label">Settings</span></a></li>
+    </ul></nav>
+    <div class="sidebar__footer">
+      <div class="sidebar__user"><div class="sidebar__avatar" data-user-avatar>JD</div><div class="sidebar__footer-text"><div class="sidebar__user-name" data-user-name>—</div><div class="sidebar__org-name" data-org-name>—</div></div></div>
+      <div class="sidebar__status-row"><div class="connection-indicator indicator--connecting" id="connection-indicator"><span class="indicator__dot"></span><span class="indicator__text">Connecting</span></div></div>
+    </div>
+  </aside>
+  <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+  <div class="main-area">
+    <header class="topbar">
+      <button class="topbar__mobile-toggle" id="sidebar-toggle" aria-label="Toggle menu"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg></button>
+      <div class="topbar__search"><div class="topbar__search-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="7" cy="7" r="5"/><line x1="11.5" y1="11.5" x2="14" y2="14"/></svg></div><input id="global-search" type="search" placeholder="Search…" /></div>
+      <div class="topbar__right"><div class="dropdown-wrap"><button class="topbar__btn" data-dropdown="user-menu" aria-expanded="false"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="8" cy="5" r="3"/><path d="M2 14c0-3 2.7-5 6-5s6 2 6 5"/></svg></button><div class="dropdown-menu" id="user-menu"><button class="dropdown-item dropdown-item--danger" id="logout-btn">Sign out</button></div></div></div>
+    </header>
+
+    <main class="page-content">
+      <div class="page-header">
+        <div class="page-header__left">
+          <h1 class="page-header__title">Settings</h1>
+          <p class="page-header__subtitle">Notifications, maintenance windows, and API keys</p>
+        </div>
+      </div>
+
+      <!-- Settings tabs -->
+      <div class="tabs" role="tablist" id="settings-tabs">
+        <button class="tab" role="tab" aria-selected="true"  aria-controls="tab-notifications" data-tab="notifications" tabindex="0">Notifications</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="tab-alert-rules"   data-tab="alert-rules"   tabindex="-1">Alert Rules</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="tab-maintenance"   data-tab="maintenance"   tabindex="-1">Maintenance</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="tab-apikeys"       data-tab="apikeys"       tabindex="-1">API Keys</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="tab-deliveries"    data-tab="deliveries"    tabindex="-1">Delivery Log</button>
+      </div>
+
+      <!-- Notification channels -->
+      <div role="tabpanel" id="tab-notifications">
+        <div class="section-header">
+          <span class="section-title">Notification Channels</span>
+          <button class="btn btn--primary btn--sm" id="add-channel-btn">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="2" x2="8" y2="14"/><line x1="2" y1="8" x2="14" y2="8"/></svg>
+            Add Channel
+          </button>
+        </div>
+        <div id="channels-list">
+          <div class="card" style="padding:1.25rem"><div class="skeleton skeleton--line" style="margin-bottom:0.75rem"></div><div class="skeleton skeleton--line" style="width:70%"></div></div>
+        </div>
+      </div>
+
+      <!-- Alert rules -->
+      <div role="tabpanel" id="tab-alert-rules" hidden>
+        <div class="section-header">
+          <span class="section-title">Alert Rules</span>
+          <button class="btn btn--primary btn--sm" id="add-rule-btn">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="2" x2="8" y2="14"/><line x1="2" y1="8" x2="14" y2="8"/></svg>
+            Add Rule
+          </button>
+        </div>
+        <div id="rules-list"></div>
+      </div>
+
+      <!-- Maintenance windows -->
+      <div role="tabpanel" id="tab-maintenance" hidden>
+        <div class="section-header">
+          <span class="section-title">Maintenance Windows</span>
+          <button class="btn btn--primary btn--sm" id="add-maintenance-btn">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="2" x2="8" y2="14"/><line x1="2" y1="8" x2="14" y2="8"/></svg>
+            Schedule Maintenance
+          </button>
+        </div>
+        <div id="maintenance-list"></div>
+      </div>
+
+      <!-- API keys -->
+      <div role="tabpanel" id="tab-apikeys" hidden>
+        <div class="section-header">
+          <span class="section-title">API Keys</span>
+          <button class="btn btn--primary btn--sm" id="add-apikey-btn">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="2" x2="8" y2="14"/><line x1="2" y1="8" x2="14" y2="8"/></svg>
+            Create Key
+          </button>
+        </div>
+        <div id="apikeys-list"></div>
+      </div>
+
+      <!-- Delivery log -->
+      <div role="tabpanel" id="tab-deliveries" hidden>
+        <div class="card">
+          <div class="card__header"><span class="card__title">Recent Alert Deliveries</span></div>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead><tr><th>Time</th><th>Event</th><th>Channel</th><th>Status</th><th>Error</th></tr></thead>
+              <tbody id="deliveries-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- Add channel modal -->
+<div class="modal-backdrop" id="channel-modal">
+  <div class="modal modal--md">
+    <div class="modal__header"><h2 class="modal__title">Add Notification Channel</h2><button class="modal__close" data-modal-close>&times;</button></div>
+    <div class="modal__body">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="ch-type">Type</label>
+          <select class="form-select" id="ch-type">
+            <option value="email">Email</option>
+            <option value="slack">Slack</option>
+            <option value="discord">Discord</option>
+            <option value="webhook">Webhook</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="ch-name">Display name</label>
+          <input class="form-input" id="ch-name" type="text" placeholder="e.g. ops-team-email" />
+        </div>
+      </div>
+      <div id="ch-config-fields"><!-- injected per type --></div>
+      <div id="ch-form-error" style="display:none;color:var(--color-danger);font-size:0.8125rem"></div>
+    </div>
+    <div class="modal__footer">
+      <button class="btn btn--ghost" data-modal-close>Cancel</button>
+      <button class="btn btn--primary" id="save-channel-btn">Save Channel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add rule modal -->
+<div class="modal-backdrop" id="rule-modal">
+  <div class="modal modal--lg">
+    <div class="modal__header"><h2 class="modal__title">Add Alert Rule</h2><button class="modal__close" data-modal-close>&times;</button></div>
+    <div class="modal__body">
+      <div class="form-group">
+        <label class="form-label" for="rule-name">Rule name</label>
+        <input class="form-input" id="rule-name" type="text" placeholder="e.g. All monitors to Slack" />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="rule-channel">Notification channel</label>
+        <select class="form-select" id="rule-channel"><option>Loading…</option></select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Event types</label>
+        <div id="rule-events" style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:0.25rem"></div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="rule-cooldown">Cooldown (seconds)</label>
+        <input class="form-input" id="rule-cooldown" type="number" value="900" min="0" max="86400" />
+        <span class="form-hint">Minimum time between repeated alerts for the same subject</span>
+      </div>
+      <div id="rule-form-error" style="display:none;color:var(--color-danger);font-size:0.8125rem"></div>
+    </div>
+    <div class="modal__footer">
+      <button class="btn btn--ghost" data-modal-close>Cancel</button>
+      <button class="btn btn--primary" id="save-rule-btn">Save Rule</button>
+    </div>
+  </div>
+</div>
+
+<!-- Maintenance window modal -->
+<div class="modal-backdrop" id="maintenance-modal">
+  <div class="modal modal--md">
+    <div class="modal__header"><h2 class="modal__title">Schedule Maintenance</h2><button class="modal__close" data-modal-close>&times;</button></div>
+    <div class="modal__body">
+      <div class="form-group">
+        <label class="form-label" for="maint-name">Name</label>
+        <input class="form-input" id="maint-name" type="text" placeholder="e.g. Planned DB upgrade" />
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="maint-start">Start time</label>
+          <input class="form-input" id="maint-start" type="datetime-local" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="maint-end">End time</label>
+          <input class="form-input" id="maint-end" type="datetime-local" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-checkbox">
+          <input type="checkbox" id="maint-suppress" />
+          <span style="font-size:0.875rem;color:var(--text-secondary)">Suppress checks during window</span>
+        </label>
+      </div>
+      <div id="maint-form-error" style="display:none;color:var(--color-danger);font-size:0.8125rem"></div>
+    </div>
+    <div class="modal__footer">
+      <button class="btn btn--ghost" data-modal-close>Cancel</button>
+      <button class="btn btn--primary" id="save-maintenance-btn">Schedule</button>
+    </div>
+  </div>
+</div>
+
+<!-- API key modal -->
+<div class="modal-backdrop" id="apikey-modal">
+  <div class="modal modal--md">
+    <div class="modal__header"><h2 class="modal__title">Create API Key</h2><button class="modal__close" data-modal-close>&times;</button></div>
+    <div class="modal__body">
+      <div class="form-group">
+        <label class="form-label" for="key-name">Key name</label>
+        <input class="form-input" id="key-name" type="text" placeholder="e.g. CI pipeline" />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="key-role">Role</label>
+        <select class="form-select" id="key-role">
+          <option value="viewer">Viewer</option>
+          <option value="member" selected>Member</option>
+          <option value="admin">Admin</option>
+        </select>
+      </div>
+      <div id="key-result" style="display:none;margin-top:1rem">
+        <div style="background:var(--bg-page);border:1px solid var(--border);border-radius:var(--radius);padding:0.875rem">
+          <p style="font-size:0.75rem;color:var(--color-warn);font-weight:600;margin-bottom:0.5rem">⚠ Copy this key now — it won't be shown again.</p>
+          <code id="key-value" style="font-size:0.8125rem;word-break:break-all;color:var(--color-accent)"></code>
+          <div style="margin-top:0.75rem"><button class="btn btn--ghost btn--sm" data-copy="">Copy Key</button></div>
+        </div>
+      </div>
+      <div id="key-form-error" style="display:none;color:var(--color-danger);font-size:0.8125rem"></div>
+    </div>
+    <div class="modal__footer">
+      <button class="btn btn--ghost" data-modal-close>Cancel</button>
+      <button class="btn btn--primary" id="save-apikey-btn">Create Key</button>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="js/settings.js"></script>
+</body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PulseWatch — Monitors</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/base.css" /><link rel="stylesheet" href="css/components.css" /><link rel="stylesheet" href="css/charts.css" /><link rel="stylesheet" href="css/responsive.css" />
+  <script>window.PW_API_BASE='/api';</script>
+</head>
+<body>
+<div class="app">
+  <!-- Sidebar (same structure, included in every page) -->
+  <aside class="sidebar" id="sidebar">
+    <a href="index.html" class="sidebar__brand"><div class="sidebar__logo"><svg viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="7" fill="#1e3a5f"/><polyline points="3,14 7,14 10,6 14,22 17,11 20,14 25,14" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="sidebar__brand-name">Pulse<span>Watch</span></span></a>
+    <nav class="sidebar__nav"><ul style="list-style:none;padding:0;margin:0">
+      <li class="sidebar__item"><a href="index.html"        class="sidebar__link"><span class="sidebar__link-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="1" y="1" width="6" height="6" rx="1"/><rect x="9" y="1" width="6" height="6" rx="1"/><rect x="1" y="9" width="6" height="6" rx="1"/><rect x="9" y="9" width="6" height="6" rx="1"/></svg></span><span class="sidebar__link-label">Dashboard</span></a></li>
+      <li class="sidebar__item"><a href="monitors.html"     class="sidebar__link"><span class="sidebar__link-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><polyline points="1,8 4,8 6,3 9,13 11,6 13,8 15,8"/></svg></span><span class="sidebar__link-label">Monitors</span></a></li>
+      <li class="sidebar__item"><a href="servers.html"      class="sidebar__link"><span class="sidebar__link-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="1" y="2" width="14" height="5" rx="1"/><rect x="1" y="9" width="14" height="5" rx="1"/></svg></span><span class="sidebar__link-label">Servers</span></a></li>
+      <li class="sidebar__item"><a href="incidents.html"    class="sidebar__link"><span class="sidebar__link-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 1.5L1 13.5h14L8 1.5z"/><line x1="8" y1="6" x2="8" y2="9"/></svg></span><span class="sidebar__link-label">Incidents</span></a></li>
+      <li class="sidebar__item"><a href="status-pages.html" class="sidebar__link"><span class="sidebar__link-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="8" cy="8" r="6"/><path d="M5 8l2 2 4-4"/></svg></span><span class="sidebar__link-label">Status Pages</span></a></li>
+      <li class="sidebar__item"><a href="analytics.html"    class="sidebar__link"><span class="sidebar__link-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><polyline points="1,12 5,7 8,9 11,5 15,2"/></svg></span><span class="sidebar__link-label">Analytics</span></a></li>
+      <li class="sidebar__item"><a href="settings.html"     class="sidebar__link"><span class="sidebar__link-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="8" cy="8" r="2"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2"/></svg></span><span class="sidebar__link-label">Settings</span></a></li>
+    </ul></nav>
+    <div class="sidebar__footer">
+      <div class="sidebar__user"><div class="sidebar__avatar" data-user-avatar>JD</div><div class="sidebar__footer-text"><div class="sidebar__user-name" data-user-name>—</div><div class="sidebar__org-name" data-org-name>—</div></div></div>
+      <div class="sidebar__status-row"><div class="connection-indicator indicator--connecting" id="connection-indicator"><span class="indicator__dot"></span><span class="indicator__text">Connecting</span></div></div>
+    </div>
+  </aside>
+  <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+  <div class="main-area">
+    <header class="topbar">
+      <button class="topbar__mobile-toggle" id="sidebar-toggle" aria-label="Toggle menu"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg></button>
+      <div class="topbar__search"><div class="topbar__search-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="7" cy="7" r="5"/><line x1="11.5" y1="11.5" x2="14" y2="14"/></svg></div><input id="global-search" type="search" placeholder="Search…" aria-label="Global search" /><span class="topbar__search-hint">⌘K</span></div>
+      <div class="topbar__right">
+        <button class="topbar__btn" id="refresh-btn" title="Refresh"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 8A6 6 0 112 8"/><polyline points="2,4 2,8 6,8"/></svg></button>
+        <div class="dropdown-wrap"><button class="topbar__btn" data-dropdown="user-menu" aria-expanded="false"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="8" cy="5" r="3"/><path d="M2 14c0-3 2.7-5 6-5s6 2 6 5"/></svg></button><div class="dropdown-menu" id="user-menu"><button class="dropdown-item dropdown-item--danger" id="logout-btn"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M10 3h3a1 1 0 011 1v8a1 1 0 01-1 1h-3M7 11l3-3-3-3M10 8H3"/></svg>Sign out</button></div></div>
+      </div>
+    </header>
+
+    <main class="page-content">
+      <div class="page-header">
+        <div class="page-header__left">
+          <h1 class="page-header__title">Monitors</h1>
+          <p class="page-header__subtitle" id="monitor-count-sub">Loading…</p>
+        </div>
+        <div class="page-header__actions">
+          <button class="btn btn--primary" id="add-monitor-btn">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="2" x2="8" y2="14"/><line x1="2" y1="8" x2="14" y2="8"/></svg>
+            Add Monitor
+          </button>
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <div class="filter-bar">
+        <div class="search-input-wrap">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="7" cy="7" r="5"/><line x1="11.5" y1="11.5" x2="14" y2="14"/></svg>
+          <input class="search-input" id="monitor-search" type="search" placeholder="Search monitors…" aria-label="Search" />
+        </div>
+        <div class="filter-chips" id="status-chips">
+          <button class="filter-chip filter-chip--active" data-filter="all">All</button>
+          <button class="filter-chip" data-filter="up">Online</button>
+          <button class="filter-chip" data-filter="down">Down</button>
+          <button class="filter-chip" data-filter="degraded">Degraded</button>
+          <button class="filter-chip" data-filter="paused">Paused</button>
+        </div>
+        <div class="filter-chips" id="type-chips">
+          <button class="filter-chip" data-type="http">HTTP</button>
+          <button class="filter-chip" data-type="api">API</button>
+          <button class="filter-chip" data-type="tcp">TCP</button>
+          <button class="filter-chip" data-type="dns">DNS</button>
+          <button class="filter-chip" data-type="ping">PING</button>
+        </div>
+      </div>
+
+      <!-- Table -->
+      <div class="card">
+        <div class="table-wrap">
+          <table class="data-table" id="monitors-table">
+            <thead><tr>
+              <th style="width:24px"></th>
+              <th data-sort="name">Monitor</th>
+              <th data-sort="type" style="width:70px">Type</th>
+              <th>Target</th>
+              <th data-sort="uptime" style="width:100px">Uptime</th>
+              <th data-sort="latency" style="width:90px">Latency</th>
+              <th data-sort="last_check_at" style="width:110px">Last Check</th>
+              <th style="width:70px">Response</th>
+              <th style="width:80px">Incidents</th>
+              <th style="width:60px" class="td-actions"></th>
+            </tr></thead>
+            <tbody id="monitors-tbody"></tbody>
+          </table>
+        </div>
+        <div class="card__footer" id="monitors-pagination"></div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- Add monitor modal -->
+<div class="modal-backdrop" id="add-monitor-modal">
+  <div class="modal modal--lg">
+    <div class="modal__header">
+      <h2 class="modal__title">Add Monitor</h2>
+      <button class="modal__close" data-modal-close>&times;</button>
+    </div>
+    <div class="modal__body">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="mon-type">Monitor type</label>
+          <select class="form-select" id="mon-type">
+            <option value="http">HTTP / HTTPS</option>
+            <option value="api">API</option>
+            <option value="tcp">TCP Port</option>
+            <option value="dns">DNS</option>
+            <option value="ping">Ping / ICMP</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="mon-interval">Check interval</label>
+          <select class="form-select" id="mon-interval">
+            <option value="30">Every 30 seconds</option>
+            <option value="60" selected>Every 1 minute</option>
+            <option value="300">Every 5 minutes</option>
+            <option value="600">Every 10 minutes</option>
+            <option value="1800">Every 30 minutes</option>
+            <option value="3600">Every hour</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="mon-name">Display name</label>
+        <input class="form-input" id="mon-name" type="text" placeholder="e.g. Production API" />
+      </div>
+      <div class="form-group" id="mon-url-group">
+        <label class="form-label" for="mon-url">URL / host</label>
+        <input class="form-input" id="mon-url" type="text" placeholder="https://api.example.com" />
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="mon-timeout">Timeout (ms)</label>
+          <input class="form-input" id="mon-timeout" type="number" value="10000" min="1000" max="60000" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="mon-fail-thresh">Failure threshold</label>
+          <input class="form-input" id="mon-fail-thresh" type="number" value="3" min="1" max="10" />
+          <span class="form-hint">Consecutive failures before DOWN alert</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="mon-degraded-ms">Degraded latency (ms) <span style="color:var(--text-muted);font-weight:400">optional</span></label>
+        <input class="form-input" id="mon-degraded-ms" type="number" placeholder="e.g. 2000" />
+        <span class="form-hint">Treat as degraded above this latency</span>
+      </div>
+      <div id="mon-form-error" style="display:none;color:var(--color-danger);font-size:0.8125rem;padding:0.5rem 0"></div>
+    </div>
+    <div class="modal__footer">
+      <button class="btn btn--ghost" data-modal-close>Cancel</button>
+      <button class="btn btn--primary" id="save-monitor-btn">Create Monitor</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<script type="module" src="js/monitors.js"></script>
+</body>
+</html>
