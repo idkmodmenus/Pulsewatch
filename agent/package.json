@@ -1,0 +1,9 @@
+{
+  "name": "pulsewatch-agent",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "bin": { "pulsewatch-agent": "src/agent.js" },
+  "scripts": { "start": "node src/agent.js" },
+  "dependencies": {}
+}

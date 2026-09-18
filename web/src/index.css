@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  --grid-line: rgba(255, 255, 255, 0.06);
+}
+
+html.light {
+  color-scheme: light;
+  --grid-line: rgba(15, 23, 30, 0.08);
+}
+
+@layer base {
+  body {
+    @apply bg-base text-ink font-sans antialiased;
+  }
+  html.light body {
+    background: #f5f7f8;
+    color: #16222b;
+  }
+  html.light .surface { background: #ffffff; border-color: #e2e8ec; }
+  html.light .text-muted { color: #5b6b78; }
+  :focus-visible {
+    outline: 2px solid #58c2c6;
+    outline-offset: 2px;
+  }
+  table { font-variant-numeric: tabular-nums; }
+}
+
+@layer components {
+  .surface {
+    @apply bg-surface border border-line rounded-md;
+  }
+  .metric {
+    @apply font-mono tabular-nums;
+  }
+  .btn {
+    @apply inline-flex items-center gap-2 rounded px-3 py-1.5 text-sm font-medium transition-colors;
+  }
+  .btn-primary {
+    @apply btn bg-signal/90 text-base hover:bg-signal;
+  }
+  .btn-ghost {
+    @apply btn border border-line text-ink hover:bg-raised;
+  }
+  .field {
+    @apply w-full rounded border border-line bg-raised px-3 py-2 text-sm text-ink placeholder:text-muted;
+  }
+  .label {
+    @apply block text-sm text-muted mb-1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}

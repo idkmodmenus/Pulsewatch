@@ -1,0 +1,107 @@
+name: pulsewatch
+
+x-app: &app
+  build:
+    context: ./server
+  env_file: .env
+  depends_on:
+    postgres:
+      condition: service_healthy
+    redis:
+      condition: service_healthy
+  restart: unless-stopped
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-pulsewatch}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change-me}
+      POSTGRES_DB: ${POSTGRES_DB:-pulsewatch}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-pulsewatch}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--save", "60", "1"]
+    volumes:
+      - redisdata:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  # Runs migrations, then seeds a demo organisation on first boot only (idempotent).
+  migrate:
+    <<: *app
+    command: ["sh", "-c", "node dist/db/migrate.js && node dist/db/seed.js"]
+    environment:
+      - ROLE=api
+    restart: "no"
+
+  api:
+    <<: *app
+    environment:
+      - ROLE=api
+      - RUN_MIGRATIONS=false
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+    ports:
+      - "4000:4000"
+
+  worker:
+    <<: *app
+    environment:
+      - ROLE=worker
+    # Ping needs CAP_NET_RAW for unprivileged ICMP; without it the ping monitor
+    # automatically falls back to a TCP reachability probe.
+    cap_add:
+      - NET_RAW
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+    deploy:
+      replicas: 1
+
+  scheduler:
+    <<: *app
+    environment:
+      - ROLE=scheduler
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+
+  web:
+    build:
+      context: .
+      dockerfile: web/Dockerfile
+    depends_on:
+      - api
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+  redisdata:
